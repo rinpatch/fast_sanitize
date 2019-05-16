@@ -21,10 +21,14 @@ defmodule FastSanitize.Fragment do
     "<#{tag} #{attr_chunks}>"
   end
 
-  defp fragment_to_html(text) when is_binary(text), do: text
-
   # empty tuple - fragment was clobbered, return nothing
   defp fragment_to_html({}), do: ""
+
+  # text node
+  defp fragment_to_html(text) when is_binary(text), do: text
+
+  # comment node
+  defp fragment_to_html({:comment, text}), do: "<!-- #{text} -->"
 
   # tags like <link> - useful attributes, no terminator
   defp fragment_to_html({"link", attrs, _}), do: build_start_tag("link", attrs)
