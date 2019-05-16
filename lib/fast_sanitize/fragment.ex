@@ -31,13 +31,10 @@ defmodule FastSanitize.Fragment do
   # comment node
   defp fragment_to_html({:comment, _, text}), do: "<!-- #{text} -->"
 
-  # tags like <link> - useful attributes, no terminator
-  defp fragment_to_html({:link, attrs, _}), do: build_start_tag("link", attrs)
+  # a node which can never accept children will have nil instead of a subtree
+  defp fragment_to_html({tag, attrs, nil}), do: build_start_tag(tag, attrs)
 
-  # tags like <hr> and <br> - no useful attributes, no terminator
-  defp fragment_to_html({:hr, _, _}), do: "<hr>"
-  defp fragment_to_html({:br, _, _}), do: "<br>"
-
+  # every other case, assume a subtree
   defp fragment_to_html({tag, attrs, subtree}) do
     with start_tag <- build_start_tag(tag, attrs),
          end_tag <- "</#{tag}>",

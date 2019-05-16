@@ -15,7 +15,7 @@ defmodule FastSanitize.Fragment.Test do
     end
 
     test "it works for simple fragment trees with atypical tags" do
-      tree = [{:br, [], []}, {:hr, [], []}]
+      tree = [{:br, [], nil}, {:hr, [], nil}]
 
       {:ok, "<br><hr>"} = FastSanitize.Fragment.to_html(tree)
     end
@@ -27,7 +27,7 @@ defmodule FastSanitize.Fragment.Test do
            {"rel", "stylesheet"},
            {"type", "text/css"},
            {"href", "http://example.com/example.css"}
-         ], []}
+         ], nil}
       ]
 
       {:ok, "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://example.com/example.css\">"} =
