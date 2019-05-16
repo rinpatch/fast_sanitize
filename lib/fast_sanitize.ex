@@ -1,0 +1,2 @@
+defmodule FastSanitize do
+end

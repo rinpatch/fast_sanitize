@@ -1,0 +1,4 @@
+%{
+  "myhtmlex": {:hex, :myhtmlex, "0.2.1", "d6f3eb1826f7cdaa0225a996569da0930d1a334405510845c905ae59295ab226", [:make, :mix], [{:nodex, "~> 0.1.1", [hex: :nodex, repo: "hexpm", optional: false]}], "hexpm"},
+  "nodex": {:hex, :nodex, "0.1.1", "ed2f7bbe19ea62a43ad4b7ad332eb3f9ca12c64a35a5802a0eb545b93ebe32af", [:mix], [], "hexpm"},
+}
