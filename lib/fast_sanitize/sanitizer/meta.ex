@@ -110,7 +110,7 @@ defmodule FastSanitize.Sanitizer.Meta do
   """
   defmacro strip_comments do
     quote do
-      def scrub({:comment, _, _}), do: ""
+      def scrub({:comment, _, _}), do: nil
     end
   end
 

@@ -21,6 +21,7 @@ defmodule FastSanitize.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:plug, "~> 1.8"},
       {:myhtmlex, "~> 0.2"},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.19", only: :dev, runtime: false},

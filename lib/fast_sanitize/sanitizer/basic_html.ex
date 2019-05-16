@@ -47,7 +47,5 @@ defmodule FastSanitize.Sanitizer.BasicHTML do
   Meta.allow_tag_with_these_attributes(:u, [])
   Meta.allow_tag_with_these_attributes(:ul, [])
 
-  Meta.strip_children_of(:script)
-
   Meta.strip_everything_not_covered()
 end

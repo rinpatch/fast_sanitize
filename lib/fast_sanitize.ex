@@ -21,7 +21,7 @@ defmodule FastSanitize do
   ## Example
 
       iex> FastSanitize.basic_html("<h1>hello world</h1><script>alert('xss')</script>")
-      {:ok, "<h1>hello world</h1>"}
+      {:ok, "<h1>hello world</h1>alert(&#39;xss&#39;)"}
   """
   def basic_html(doc), do: Sanitizer.scrub(doc, FastSanitize.Sanitizer.BasicHTML)
 end

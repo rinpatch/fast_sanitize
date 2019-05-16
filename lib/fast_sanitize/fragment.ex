@@ -1,5 +1,5 @@
 defmodule FastSanitize.Fragment do
-  require Logger
+  import Plug.HTML, only: [html_escape: 1]
 
   def to_tree(bin) do
     with {:html, _, [{:head, _, _}, {:body, _, fragment}]} <-
@@ -10,23 +10,22 @@ defmodule FastSanitize.Fragment do
     end
   end
 
-  defp build_start_tag(tag, attrs) when length(attrs) == 0, do: "<#{tag}>"
-
-  defp build_start_tag(tag, attrs) do
-    attr_chunks =
-      Enum.map(attrs, fn {k, v} ->
-        "#{k}=\"#{v}\""
-      end)
-      |> Enum.join(" ")
-
-    "<#{tag} #{attr_chunks}>"
+  defp build_attr_chunks(attrs) do
+    Enum.map(attrs, fn {k, v} ->
+      "#{html_escape(k)}=\"#{html_escape(v)}\""
+    end)
+    |> Enum.join(" ")
   end
+
+  defp build_start_tag(tag, attrs, nil), do: "<#{tag} #{build_attr_chunks(attrs)}/>"
+  defp build_start_tag(tag, attrs, _children) when length(attrs) == 0, do: "<#{tag}>"
+  defp build_start_tag(tag, attrs, _children), do: "<#{tag} #{build_attr_chunks(attrs)}>"
 
   # empty tuple - fragment was clobbered, return nothing
   defp fragment_to_html({}), do: ""
 
   # text node
-  defp fragment_to_html(text) when is_binary(text), do: text
+  defp fragment_to_html(text) when is_binary(text), do: html_escape(text)
 
   # comment node
   defp fragment_to_html({:comment, _, text}), do: "<!-- #{text} -->"
@@ -38,11 +37,11 @@ defmodule FastSanitize.Fragment do
   end
 
   # a node which can never accept children will have nil instead of a subtree
-  defp fragment_to_html({tag, attrs, nil}), do: build_start_tag(tag, attrs)
+  defp fragment_to_html({tag, attrs, nil}), do: build_start_tag(tag, attrs, nil)
 
   # every other case, assume a subtree
   defp fragment_to_html({tag, attrs, subtree}) do
-    with start_tag <- build_start_tag(tag, attrs),
+    with start_tag <- build_start_tag(tag, attrs, subtree),
          end_tag <- "</#{tag}>",
          {:ok, subtree} <- subtree_to_html(subtree) do
       [start_tag, subtree, end_tag]
