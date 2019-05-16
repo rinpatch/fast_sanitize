@@ -54,7 +54,8 @@ defmodule FastSanitize.Fragment do
 
   defp subtree_to_html(tree) do
     rendered =
-      Enum.map(tree, &fragment_to_html/1)
+      Enum.reject(tree, &is_nil/1)
+      |> Enum.map(&fragment_to_html/1)
       |> Enum.join("")
 
     {:ok, rendered}

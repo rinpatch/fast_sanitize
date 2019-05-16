@@ -131,6 +131,16 @@ defmodule FastSanitize.Sanitizer.Meta do
     end
   end
 
+  @doc """
+  Ensures any tags/attributes that are explicitly disallowed have
+  their children dropped.
+  """
+  defmacro strip_children_of(tag_name) do
+    quote do
+      def scrub({unquote(tag_name), _attributes, _children}), do: nil
+    end
+  end
+
   defp allow_this_tag_and_scrub_its_attributes(tag_name) do
     quote do
       def scrub({unquote(tag_name), attributes, children}) do
