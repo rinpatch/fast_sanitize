@@ -31,6 +31,12 @@ defmodule FastSanitize.Fragment do
   # comment node
   defp fragment_to_html({:comment, _, text}), do: "<!-- #{text} -->"
 
+  # bare subtree
+  defp fragment_to_html(subtree) when is_list(subtree) do
+    {:ok, result} = subtree_to_html(subtree)
+    result
+  end
+
   # a node which can never accept children will have nil instead of a subtree
   defp fragment_to_html({tag, attrs, nil}), do: build_start_tag(tag, attrs)
 
