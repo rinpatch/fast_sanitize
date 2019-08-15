@@ -128,8 +128,7 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
 
   @tag href_scrubbing: true
   test "strips tags with basic_html_sanitize/1" do
-    input =
-      "<p>This <u>is</u> a <a href='test.html'><strong>test</strong></a>.</p>"
+    input = "<p>This <u>is</u> a <a href='test.html'><strong>test</strong></a>.</p>"
 
     assert "<p>This <u>is</u> a <a href=\"test.html\"><strong>test</strong></a>.</p>" ==
              basic_html_sanitize(input)
@@ -209,8 +208,7 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
   end
 
   test "strips not allowed attributes" do
-    input =
-      "start <a title=\"1\" onclick=\"foo\">foo <bad>bar</bad> baz</a> end"
+    input = "start <a title=\"1\" onclick=\"foo\">foo <bad>bar</bad> baz</a> end"
 
     expected = "start <a title=\"1\">foo bar baz</a> end"
     assert expected == basic_html_sanitize(input)
@@ -251,9 +249,7 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
   @tag href_scrubbing: true
   test "should only allow http/https protocols" do
     assert "<a href=\"foo\">baz</a>" ==
-             basic_html_sanitize(
-               ~s(<a href="foo" onclick="bar"><script>baz</script></a>)
-             )
+             basic_html_sanitize(~s(<a href="foo" onclick="bar"><script>baz</script></a>))
 
     assert "<a href=\"http://example.com\">baz</a>" ==
              basic_html_sanitize(
@@ -345,8 +341,7 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
   end
 
   test "should_sanitize_within attributes" do
-    input =
-      "<span title=\"&#39;&gt;&lt;script&gt;alert()&lt;/script&gt;\">blah</span>"
+    input = "<span title=\"&#39;&gt;&lt;script&gt;alert()&lt;/script&gt;\">blah</span>"
 
     assert "<span>blah</span>" == basic_html_sanitize(input)
   end
@@ -356,9 +351,7 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
 
   test "should_sanitize_non_alpha_and_non_digit_characters_in_tags" do
     assert "<a>foo</a>" ==
-             basic_html_sanitize(
-               "<a onclick!@#$%^&*='alert(\"XSS\")'>foo</a>"
-             )
+             basic_html_sanitize("<a onclick!@#$%^&*='alert(\"XSS\")'>foo</a>")
   end
 
   test "should_sanitize_invalid_tag_names_in_single_tags" do
@@ -382,8 +375,7 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
   end
 
   test "should_not_crash_on_invalid_schema_formatting" do
-    input =
-      "<a href=\"http//www.domain.com/?encoded_param=param1%3Aparam2\">text here</a>"
+    input = "<a href=\"http//www.domain.com/?encoded_param=param1%3Aparam2\">text here</a>"
 
     assert "<a>text here</a>" == basic_html_sanitize(input)
   end
@@ -409,4 +401,3 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
     assert expected == basic_html_sanitize(input)
   end
 end
-

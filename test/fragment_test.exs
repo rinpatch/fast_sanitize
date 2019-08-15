@@ -30,7 +30,8 @@ defmodule FastSanitize.Fragment.Test do
          ], nil}
       ]
 
-      {:ok, "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://example.com/example.css\"/>"} =
+      {:ok,
+       "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://example.com/example.css\"/>"} =
         FastSanitize.Fragment.to_html(tree)
     end
   end
