@@ -42,9 +42,9 @@ defmodule FastSanitize.Sanitizer do
 
     Enum.map(subtree, fn fragment ->
       case scrubber.scrub(fragment) do
-        {tag, attrs, nil} ->
-          Logger.debug("Post-process closure: #{inspect({tag, attrs, nil})}")
-          {tag, attrs, nil}
+        {_tag, _attrs, nil} = fragment ->
+          Logger.debug("Post-process closure: #{inspect(fragment)}")
+	  fragment
 
         {tag, attrs, children} ->
           Logger.debug("Post-process tag: #{inspect({tag, attrs, children})}")
