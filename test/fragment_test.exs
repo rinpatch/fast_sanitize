@@ -17,7 +17,7 @@ defmodule FastSanitize.Fragment.Test do
     test "it works for simple fragment trees with atypical tags" do
       tree = [{:br, [], nil}, {:hr, [], nil}]
 
-      {:ok, "<br /><hr />"} = FastSanitize.Fragment.to_html(tree)
+      {:ok, "<br/><hr/>"} = FastSanitize.Fragment.to_html(tree)
     end
 
     test "it works for simple fragment trees with non-terminating tags" do

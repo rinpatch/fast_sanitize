@@ -3,23 +3,29 @@ defmodule FastSanitize.Fragment do
 
   def to_tree(bin) do
     with {:html, _, [{:head, _, _}, {:body, _, fragment}]} <-
-           Myhtmlex.decode(bin, format: [:html_atoms, :nil_self_closing, :comment_tuple3]) do
+           Myhtmlex.decode(bin, format: [:nil_self_closing, :comment_tuple3, :html_atoms]) do
       {:ok, fragment}
     else
-      e -> {:error, e}
+      e ->
+        {:error, e}
     end
   end
 
-  defp build_attr_chunks(attrs) do
-    Enum.map(attrs, fn {k, v} ->
-      "#{html_escape(k)}=\"#{html_escape(v)}\""
-    end)
-    |> Enum.join(" ")
+  defp build_attr_chunks([]) do
+    ""
   end
 
-  defp build_start_tag(tag, attrs, nil), do: "<#{tag} #{build_attr_chunks(attrs)}/>"
+  defp build_attr_chunks(attrs) do
+    " " <>
+      (Enum.map(attrs, fn {k, v} ->
+         "#{html_escape(k)}=\"#{html_escape(v)}\""
+       end)
+       |> Enum.join(" "))
+  end
+
+  defp build_start_tag(tag, attrs, nil), do: "<#{tag}#{build_attr_chunks(attrs)}/>"
   defp build_start_tag(tag, attrs, _children) when length(attrs) == 0, do: "<#{tag}>"
-  defp build_start_tag(tag, attrs, _children), do: "<#{tag} #{build_attr_chunks(attrs)}>"
+  defp build_start_tag(tag, attrs, _children), do: "<#{tag}#{build_attr_chunks(attrs)}>"
 
   # empty tuple - fragment was clobbered, return nothing
   defp fragment_to_html({}), do: ""

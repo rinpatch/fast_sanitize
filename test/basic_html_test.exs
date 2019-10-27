@@ -298,7 +298,7 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
   ]
 
   test "strips malicious protocol hacks from img src attribute" do
-    expected = "<img />"
+    expected = "<img/>"
 
     Enum.each(@image_src_hacks, fn x ->
       assert expected == basic_html_sanitize(x)
@@ -313,7 +313,7 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
 
   test "strips xss image hack with uppercase tags" do
     input = "<IMG \"\"\"><SCRIPT>alert(\"XSS\")</SCRIPT>\">"
-    expected = "<img />alert(&quot;XSS&quot;)&quot;&gt;"
+    expected = "<img/>alert(&quot;XSS&quot;)&quot;&gt;"
     assert expected == basic_html_sanitize(input)
   end
 
@@ -329,7 +329,7 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
 
   test "sanitize half open scripts" do
     input = "<IMG SRC=\"javascript:alert('XSS')\""
-    assert "<img />" == basic_html_sanitize(input)
+    assert "<img/>" == basic_html_sanitize(input)
   end
 
   test "should_not_fall_for_ridiculous_hack" do
@@ -337,7 +337,7 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
     <IMG\nSRC\n=\n"\nj\na\nv\na\ns\nc\nr\ni\np\nt\n:\na\nl\ne\nr\nt\n(\n'\nX\nS\nS\n'\n)\n"\n>)
     """
 
-    assert "<img />)\n" == basic_html_sanitize(img_hack)
+    assert "<img/>)\n" == basic_html_sanitize(img_hack)
   end
 
   test "should_sanitize_within attributes" do
@@ -355,17 +355,17 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
   end
 
   test "should_sanitize_invalid_tag_names_in_single_tags" do
-    assert "<img />" ==
+    assert "<img/>" ==
              basic_html_sanitize("<img/src=\"javascript:alert('XSS')\"/>")
   end
 
   test "should_sanitize_img_dynsrc_lowsrc" do
-    assert "<img />" ==
+    assert "<img/>" ==
              basic_html_sanitize("<img lowsrc=\"javascript:alert('XSS')\" />")
   end
 
   test "should_sanitize_img_vbscript" do
-    assert "<img />" ==
+    assert "<img/>" ==
              basic_html_sanitize("<img src='vbscript:msgbox(\"XSS\")' />")
   end
 
