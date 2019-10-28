@@ -44,7 +44,7 @@ defmodule FastSanitize.Sanitizer do
       case scrubber.scrub(fragment) do
         {_tag, _attrs, nil} = fragment ->
           Logger.debug("Post-process closure: #{inspect(fragment)}")
-	  fragment
+          fragment
 
         {tag, attrs, children} ->
           Logger.debug("Post-process tag: #{inspect({tag, attrs, children})}")

@@ -22,7 +22,10 @@ defmodule FastSanitize.MixProject do
   defp deps do
     [
       {:plug, "~> 1.8"},
-      {:myhtmlex, git: "https://github.com/rinpatch/myhtmlex.git", ref: "d973dfb1b252b1c6e6eddddc18c0895aa977091c", submodules: true},
+      {:myhtmlex,
+       git: "https://github.com/rinpatch/myhtmlex.git",
+       ref: "d973dfb1b252b1c6e6eddddc18c0895aa977091c",
+       submodules: true},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.19", only: :dev, runtime: false},
       {:dialyxir, "~> 1.0.0-rc.5", only: [:dev], runtime: false}
