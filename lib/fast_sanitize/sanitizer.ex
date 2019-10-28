@@ -29,35 +29,10 @@ defmodule FastSanitize.Sanitizer do
   def scrub(doc, scrubber) when is_binary(doc) do
     with wrapped_doc <- "<body>" <> doc <> "</body>",
          {:ok, subtree} <- Fragment.to_tree(wrapped_doc) do
-      scrub(subtree, scrubber)
-      |> Fragment.to_html()
+      Fragment.to_html(subtree, scrubber)
     else
       e ->
         {:error, e}
     end
-  end
-
-  def scrub(subtree, scrubber) when is_list(subtree) do
-    Logger.debug("Pre-process: #{inspect(subtree)}")
-
-    Enum.map(subtree, fn fragment ->
-      case scrubber.scrub(fragment) do
-        {_tag, _attrs, nil} = fragment ->
-          Logger.debug("Post-process closure: #{inspect(fragment)}")
-          fragment
-
-        {tag, attrs, children} ->
-          Logger.debug("Post-process tag: #{inspect({tag, attrs, children})}")
-          {tag, attrs, scrub(children, scrubber)}
-
-        subtree when is_list(subtree) ->
-          Logger.debug("Post-process subtree: #{inspect(subtree)}")
-          scrub(subtree, scrubber)
-
-        other ->
-          Logger.debug("Post-process other: #{inspect(other)}")
-          other
-      end
-    end)
   end
 end
