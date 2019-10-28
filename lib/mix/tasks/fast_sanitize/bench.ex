@@ -10,6 +10,7 @@ defmodule Mix.Tasks.FastSanitize.Bench do
         input = File.read!(Path.join(@input_dir, input_name))
         Map.put(acc, input_name, input)
       end)
+      |> IO.inspect()
 
     Benchee.run(
       %{

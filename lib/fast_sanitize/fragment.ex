@@ -1,136 +1,6 @@
 defmodule FastSanitize.Fragment do
   import Plug.HTML, only: [html_escape_to_iodata: 1]
 
-  # Generate a lookup table from atoms to binaries
-  @known_tags [
-    :a,
-    :article,
-    :aside,
-    :body,
-    :br,
-    :details,
-    :div,
-    :h1,
-    :h2,
-    :h3,
-    :h4,
-    :h5,
-    :h6,
-    :head,
-    :header,
-    :hgroup,
-    :hr,
-    :html,
-    :footer,
-    :nav,
-    :p,
-    :section,
-    :span,
-    :summary,
-    :base,
-    :basefont,
-    :link,
-    :meta,
-    :style,
-    :title,
-    :button,
-    :datalist,
-    :fieldset,
-    :form,
-    :input,
-    :keygen,
-    :label,
-    :legend,
-    :meter,
-    :optgroup,
-    :option,
-    :select,
-    :textarea,
-    :abbr,
-    :acronym,
-    :address,
-    :b,
-    :bdi,
-    :bdo,
-    :big,
-    :blockquote,
-    :center,
-    :cite,
-    :code,
-    :del,
-    :dfn,
-    :em,
-    :font,
-    :i,
-    :mark,
-    :output,
-    :pre,
-    :progress,
-    :q,
-    :rp,
-    :rt,
-    :ruby,
-    :s,
-    :samp,
-    :small,
-    :strike,
-    :strong,
-    :sub,
-    :sup,
-    :tt,
-    :u,
-    :var,
-    :wbr,
-    :dd,
-    :dir,
-    :dl,
-    :dt,
-    :li,
-    :ol,
-    :menu,
-    :ul,
-    :caption,
-    :col,
-    :colgroup,
-    :table,
-    :tbody,
-    :td,
-    :tfoot,
-    :thead,
-    :th,
-    :tr,
-    :noscript,
-    :script,
-    :applet,
-    :area,
-    :audio,
-    :canvas,
-    :embed,
-    :figcaption,
-    :figure,
-    :frame,
-    :frameset,
-    :iframe,
-    :img,
-    :map,
-    :noframes,
-    :object,
-    :param,
-    :source,
-    :time,
-    :video
-  ]
-
-  for tag <- @known_tags do
-    string_tag = to_string(tag)
-
-    def tag_to_string(unquote(tag)), do: unquote(string_tag)
-  end
-
-  def tag_to_string("" <> binary), do: binary
-
-  def tag_to_string(atom), do: to_string(atom)
-
   def to_tree(bin) do
     with {:html, _, [{:head, _, _}, {:body, _, fragment}]} <-
            Myhtmlex.decode(bin, format: [:nil_self_closing, :comment_tuple3, :html_atoms]) do
@@ -149,14 +19,13 @@ defmodule FastSanitize.Fragment do
     end)
   end
 
-  defp build_start_tag(tag, attrs, nil),
-    do: ["<", tag_to_string(tag), build_attr_chunks(attrs), "/>"]
+  defp build_start_tag(tag, attrs, nil), do: ["<", to_string(tag), build_attr_chunks(attrs), "/>"]
 
   defp build_start_tag(tag, attrs, _children) when length(attrs) == 0,
-    do: ["<", tag_to_string(tag), ">"]
+    do: ["<", to_string(tag), ">"]
 
   defp build_start_tag(tag, attrs, _children),
-    do: ["<", tag_to_string(tag), build_attr_chunks(attrs), ">"]
+    do: ["<", to_string(tag), build_attr_chunks(attrs), ">"]
 
   # empty tuple - fragment was clobbered, return nothing
   defp fragment_to_html(nil, _), do: ""
@@ -180,7 +49,7 @@ defmodule FastSanitize.Fragment do
   # every other case, assume a subtree
   defp fragment_to_html({tag, attrs, subtree}, scrubber) do
     with start_tag <- build_start_tag(tag, attrs, subtree),
-         end_tag <- ["</", tag_to_string(tag), ">"],
+         end_tag <- ["</", to_string(tag), ">"],
          subtree <- subtree_to_iodata(subtree, scrubber) do
       [start_tag, subtree, end_tag]
     end
