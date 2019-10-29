@@ -24,7 +24,7 @@ defmodule FastSanitize.MixProject do
       {:plug, "~> 1.8"},
       {:myhtmlex,
        git: "https://github.com/rinpatch/myhtmlex.git",
-       ref: "d973dfb1b252b1c6e6eddddc18c0895aa977091c",
+       ref: "61842aec25b98eb78895aed91ce3eb78856cc16e",
        submodules: true},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:benchee, "~> 1.0", only: :dev},
