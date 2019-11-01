@@ -23,7 +23,7 @@ defmodule FastSanitize.Fragment do
 
   defp build_start_tag(tag, attrs, nil), do: ["<", to_string(tag), build_attr_chunks(attrs), "/>"]
 
-  defp build_start_tag(tag, attrs, _children) when length(attrs) == 0,
+  defp build_start_tag(tag, attrs, _children) when attrs == [],
     do: ["<", to_string(tag), ">"]
 
   defp build_start_tag(tag, attrs, _children),
