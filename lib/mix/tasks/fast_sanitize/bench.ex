@@ -1,4 +1,6 @@
 defmodule Mix.Tasks.FastSanitize.Bench do
+  @moduledoc "Benchmarking task."
+
   use Mix.Task
 
   @input_dir "lib/mix/tasks/fast_sanitize/html"

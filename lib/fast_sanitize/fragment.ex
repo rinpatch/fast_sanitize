@@ -1,4 +1,6 @@
 defmodule FastSanitize.Fragment do
+  @moduledoc "Processing of HTML fragment trees."
+
   import Plug.HTML, only: [html_escape_to_iodata: 1]
 
   def to_tree(bin) do

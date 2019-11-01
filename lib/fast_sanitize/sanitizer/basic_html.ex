@@ -1,4 +1,6 @@
 defmodule FastSanitize.Sanitizer.BasicHTML do
+  @moduledoc "The default sanitizer policy."
+
   require FastSanitize.Sanitizer.Meta
   alias FastSanitize.Sanitizer.Meta
 
