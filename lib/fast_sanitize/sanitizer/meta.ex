@@ -148,7 +148,8 @@ defmodule FastSanitize.Sanitizer.Meta do
       end
 
       defp scrub_attributes(unquote(tag_name), attributes) do
-        Enum.map(attributes, fn attr ->
+        attributes
+        |> Enum.map(fn attr ->
           scrub_attribute(unquote(tag_name), attr)
         end)
         |> Enum.reject(&is_nil(&1))
