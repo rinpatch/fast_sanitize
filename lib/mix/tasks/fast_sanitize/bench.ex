@@ -8,7 +8,6 @@ defmodule Mix.Tasks.FastSanitize.Bench do
   def run(_) do
     inputs =
       Enum.reduce(File.ls!(@input_dir), %{}, fn input_name, acc ->
-        IO.inspect(input_name)
         input = File.read!(Path.join(@input_dir, input_name))
         Map.put(acc, input_name, input)
       end)
