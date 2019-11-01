@@ -114,13 +114,13 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
   test "test_strip_links_with_line_feed_and_uppercase_tag" do
     input = "<a href='almost'>on my mind</a> <A href='almost'>all day long</A>"
 
-    assert "<a href=\"almost\">on my mind</a> <a href=\"almost\">all day long</a>" ==
+    assert ~s(<a href="almost">on my mind</a> <a href="almost">all day long</a>) ==
              basic_html_sanitize(input)
   end
 
   @tag href_scrubbing: true
   test "test_strip_links_leaves_nonlink_tags" do
-    assert "<a href=\"almost\">My mind</a>\n<a href=\"almost\">all <b>day</b> long</a>" ==
+    assert ~s(<a href="almost">My mind</a>\n<a href="almost">all <b>day</b> long</a>) ==
              basic_html_sanitize(
                "<a href='almost'>My mind</a>\n<A href='almost'>all <b>day</b> long</A>"
              )
@@ -163,12 +163,12 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
     input =
       "<a href='http://www.elixirstatus.com/'><a href='http://www.elixirstatus.com/' onlclick='steal()'>0wn3d</a></a>"
 
-    assert "<a href=\"http://www.elixirstatus.com/\"></a><a href=\"http://www.elixirstatus.com/\">0wn3d</a>" ==
+    assert ~s(<a href="http://www.elixirstatus.com/"></a><a href="http://www.elixirstatus.com/">0wn3d</a>) ==
              basic_html_sanitize(input)
   end
 
   test "test_strip_links_with_linkception" do
-    assert "<a href=\"http://www.elixirstatus.com/\">Mag</a><a href=\"http://www.elixir-lang.org/\">ic</a>" ==
+    assert ~s(<a href="http://www.elixirstatus.com/">Mag</a><a href="http://www.elixir-lang.org/">ic</a>) ==
              basic_html_sanitize(
                "<a href='http://www.elixirstatus.com/'>Mag<a href='http://www.elixir-lang.org/'>ic"
              )
@@ -204,7 +204,7 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
     input =
       ~s(onthis="do that" <a href="#" onclick="hello" name="foo" onbogus="remove me">hello</a>)
 
-    assert "onthis=&quot;do that&quot; <a href=\"#\" name=\"foo\">hello</a>" ==
+    assert ~s(onthis=&quot;do that&quot; <a href="#" name="foo">hello</a>) ==
              basic_html_sanitize(input)
   end
 
