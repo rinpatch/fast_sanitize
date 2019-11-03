@@ -24,7 +24,7 @@ defmodule FastSanitize.MixProject do
       {:plug, "~> 1.8"},
       {:myhtmlex,
        git: "https://git.pleroma.social/pleroma/myhtmlex.git",
-       ref: "4288bda52c53a2d416afa09e1007a881eb2dafab",
+       ref: "2d8caed4e692688584f7d524608eb4a3e659fbd0",
        submodules: true},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:benchee, "~> 1.0", only: :dev},
