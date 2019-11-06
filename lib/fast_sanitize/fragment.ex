@@ -5,7 +5,7 @@ defmodule FastSanitize.Fragment do
 
   def to_tree(bin) do
     with {:html, _, [{:head, _, _}, {:body, _, fragment}]} <-
-           Myhtmlex.decode(bin, format: [:nil_self_closing, :comment_tuple3, :html_atoms]) do
+           :fast_html.decode(bin, format: [:nil_self_closing, :comment_tuple3, :html_atoms]) do
       {:ok, fragment}
     else
       e ->

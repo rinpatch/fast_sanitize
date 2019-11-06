@@ -6,7 +6,7 @@ defmodule Mix.Tasks.FastSanitize.Bench do
   @input_dir "lib/mix/tasks/fast_sanitize/html"
 
   def run(_) do
-    Application.ensure_all_started(:myhtmlex)
+    Application.ensure_all_started(:fast_html)
 
     inputs =
       Enum.reduce(File.ls!(@input_dir), %{}, fn input_name, acc ->
