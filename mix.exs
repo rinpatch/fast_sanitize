@@ -22,10 +22,7 @@ defmodule FastSanitize.MixProject do
   defp deps do
     [
       {:plug, "~> 1.8"},
-      {:fast_html,
-       git: "https://git.pleroma.social/pleroma/myhtmlex.git",
-       ref: "73338a463023f788de7a362850181a33b325a9f0",
-       submodules: true},
+      {:fast_html, "~> 0.9"},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:benchee, "~> 1.0", only: :dev},
       {:html_sanitize_ex, "~> 1.3.0-rc3", only: :dev},
