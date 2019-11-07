@@ -7,7 +7,23 @@ defmodule FastSanitize.MixProject do
       version: "0.1.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      package: package(),
+      description: """
+        A module that provides performant and memory-efficient HTML sanitization.
+        Largely drop-in compatible with HtmlSanitizeEx.
+      """
+    ]
+  end
+
+  def package do
+    [
+      maintainers: ["Ariadne Conill"],
+      licenses: ["MIT"],
+      links: %{
+        "GitLab" => "https://git.pleroma.social/pleroma/fast_sanitize",
+        "Issues" => "https://git.pleroma.social/pleroma/fast_sanitize/issues"
+      }
     ]
   end
 
