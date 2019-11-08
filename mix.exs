@@ -18,7 +18,7 @@ defmodule FastSanitize.MixProject do
 
   def package do
     [
-      maintainers: ["Ariadne Conill"],
+      maintainers: ["rinpatch", "Ariadne Conill"],
       licenses: ["MIT"],
       links: %{
         "GitLab" => "https://git.pleroma.social/pleroma/fast_sanitize",
