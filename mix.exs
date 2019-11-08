@@ -40,8 +40,8 @@ defmodule FastSanitize.MixProject do
       {:plug, "~> 1.8"},
       {:fast_html, "~> 0.99"},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
-      {:benchee, "~> 1.0", only: :dev},
-      {:html_sanitize_ex, "~> 1.3.0-rc3", only: :dev},
+      {:benchee, "~> 1.0", only: :bench},
+      {:html_sanitize_ex, "~> 1.3.0-rc3", only: :bench},
       {:ex_doc, "~> 0.19", only: :dev, runtime: false},
       {:dialyxir, "~> 1.0.0-rc.5", only: [:dev], runtime: false}
     ]
