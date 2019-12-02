@@ -4,7 +4,7 @@ defmodule FastSanitize.MixProject do
   def project do
     [
       app: :fast_sanitize,
-      version: "0.1.4",
+      version: "0.1.5",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -38,7 +38,7 @@ defmodule FastSanitize.MixProject do
   defp deps do
     [
       {:plug, "~> 1.8"},
-      {:fast_html, "~> 0.99"},
+      {:fast_html, "~> 1.0"},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:benchee, "~> 1.0", only: :bench},
       {:html_sanitize_ex, "~> 1.3.0-rc3", only: :bench},
