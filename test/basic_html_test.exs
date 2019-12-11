@@ -102,10 +102,6 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
     assert expected == basic_html_sanitize(input)
   end
 
-  test "test_strip_links_with_unclosed_tags" do
-    assert "" == basic_html_sanitize("<a<a")
-  end
-
   test "test_strip_links_with_plaintext" do
     assert "Dont touch me" == basic_html_sanitize("Dont touch me")
   end

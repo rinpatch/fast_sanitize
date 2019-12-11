@@ -27,10 +27,10 @@ defmodule FastSanitize.Sanitizer do
   def scrub(nil, _), do: {:ok, ""}
 
   def scrub(doc, scrubber) when is_binary(doc) do
-    with wrapped_doc <- "<body>" <> doc <> "</body>",
-         {:ok, subtree} <- Fragment.to_tree(wrapped_doc) do
-      Fragment.to_html(subtree, scrubber)
-    else
+    case Fragment.to_tree(doc) do
+      {:ok, subtree} ->
+        Fragment.to_html(subtree, scrubber)
+
       e ->
         {:error, e}
     end
