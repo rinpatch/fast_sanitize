@@ -23,43 +23,45 @@ defmodule FastSanitize.Fragment do
     end)
   end
 
-  defp build_start_tag(tag, attrs, nil), do: ["<", to_string(tag), build_attr_chunks(attrs), "/>"]
+  defp build_self_closing_tag(tag, attrs), do: ["<", to_string(tag), build_attr_chunks(attrs), "/>"]
 
-  defp build_start_tag(tag, attrs, _children) when attrs == [],
+  defp build_start_tag(tag, []),
     do: ["<", to_string(tag), ">"]
 
-  defp build_start_tag(tag, attrs, _children),
+  defp build_start_tag(tag, attrs),
     do: ["<", to_string(tag), build_attr_chunks(attrs), ">"]
+
+  # text node
+  defp fragment_to_html("" <> _ = text, _), do: html_escape_to_iodata(text)
 
   # empty tuple - fragment was clobbered, return nothing
   defp fragment_to_html(nil, _), do: ""
 
   defp fragment_to_html({}, _), do: ""
 
-  # text node
-  defp fragment_to_html(text, _) when is_binary(text), do: html_escape_to_iodata(text)
-
   # comment node
-  defp fragment_to_html({:comment, _, text}, _), do: ["<!-- ", text, " -->"]
-
-  # bare subtree
-  defp fragment_to_html(subtree, scrubber) when is_list(subtree) do
-    subtree_to_iodata(subtree, scrubber)
-  end
+  defp fragment_to_html({:comment, _, text}, _), do: ["<!--", text, "-->"]
 
   # a node which can never accept children will have nil instead of a subtree
-  defp fragment_to_html({tag, attrs, nil}, _), do: build_start_tag(tag, attrs, nil)
+  defp fragment_to_html({tag, attrs, nil}, _), do: build_self_closing_tag(tag, attrs)
 
   # every other case, assume a subtree
   defp fragment_to_html({tag, attrs, subtree}, scrubber) do
-    with start_tag <- build_start_tag(tag, attrs, subtree),
-         end_tag <- ["</", to_string(tag), ">"],
-         subtree <- subtree_to_iodata(subtree, scrubber) do
-      [start_tag, subtree, end_tag]
-    end
+    start_tag = build_start_tag(tag, attrs)
+    subtree = subtree_to_iodata(subtree, scrubber)
+    [start_tag, subtree, "</", to_string(tag), ">"]
   end
 
+  # bare subtree
+  defp fragment_to_html([], _), do: ""
+
+  defp fragment_to_html([_head | _tail] = subtree, scrubber) do
+    subtree_to_iodata(subtree, scrubber)
+  end
+
+
   defp subtree_to_html([], _), do: {:ok, ""}
+
 
   defp subtree_to_html(tree, scrubber) do
     iodata = subtree_to_iodata(tree, scrubber)
