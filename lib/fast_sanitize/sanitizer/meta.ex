@@ -127,7 +127,7 @@ defmodule FastSanitize.Sanitizer.Meta do
       def scrub({_tag, _attributes, children}), do: children
 
       # Text is left alone
-      def scrub("" <> text), do: text
+      def scrub("" <> _ = text), do: text
     end
   end
 
