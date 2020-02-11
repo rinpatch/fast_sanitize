@@ -23,7 +23,8 @@ defmodule FastSanitize.Fragment do
     end)
   end
 
-  defp build_self_closing_tag(tag, attrs), do: ["<", to_string(tag), build_attr_chunks(attrs), "/>"]
+  defp build_self_closing_tag(tag, attrs),
+    do: ["<", to_string(tag), build_attr_chunks(attrs), "/>"]
 
   defp build_start_tag(tag, []),
     do: ["<", to_string(tag), ">"]
@@ -59,9 +60,7 @@ defmodule FastSanitize.Fragment do
     subtree_to_iodata(subtree, scrubber)
   end
 
-
   defp subtree_to_html([], _), do: {:ok, ""}
-
 
   defp subtree_to_html(tree, scrubber) do
     iodata = subtree_to_iodata(tree, scrubber)
