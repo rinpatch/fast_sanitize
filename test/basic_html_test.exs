@@ -293,7 +293,7 @@ defmodule FastSanitize.Sanitizer.BasicHTMLTest do
 
   test "sanitize half open scripts" do
     input = "<IMG SRC=\"javascript:alert('XSS')\""
-    assert "<img/>" == basic_html_sanitize(input)
+    assert "" == basic_html_sanitize(input)
   end
 
   test "should_sanitize_within attributes" do
