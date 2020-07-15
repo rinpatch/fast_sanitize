@@ -4,7 +4,7 @@ defmodule FastSanitize.Fragment do
   import Plug.HTML, only: [html_escape_to_iodata: 1]
 
   def to_tree(bin) do
-    with {:ok, [{:html, _, fragment}]} <-
+    with {:ok, fragment} <-
            :fast_html.decode_fragment(bin,
              format: [:nil_self_closing, :comment_tuple3, :html_atoms]
            ) do
