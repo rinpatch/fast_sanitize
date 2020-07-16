@@ -38,7 +38,7 @@ defmodule FastSanitize.MixProject do
   defp deps do
     [
       {:plug, "~> 1.8"},
-      {:fast_html, "~> 1.0"},
+      {:fast_html, "~> 2.0"},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:benchee, "~> 1.0", only: :bench},
       {:html_sanitize_ex, "~> 1.3.0-rc3", only: :bench},
