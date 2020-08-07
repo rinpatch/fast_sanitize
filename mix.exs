@@ -12,7 +12,8 @@ defmodule FastSanitize.MixProject do
       description: """
         A module that provides performant and memory-efficient HTML sanitization.
         Largely drop-in compatible with HtmlSanitizeEx.
-      """
+      """,
+      docs: docs()
     ]
   end
 
@@ -45,5 +46,9 @@ defmodule FastSanitize.MixProject do
       {:ex_doc, "~> 0.19", only: :dev, runtime: false},
       {:dialyxir, "~> 1.0.0-rc.5", only: [:dev], runtime: false}
     ]
+  end
+
+  defp docs do
+    [extras: ["CHANGELOG.md"]]
   end
 end
